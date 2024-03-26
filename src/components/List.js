@@ -17,7 +17,7 @@ export class List extends Component {
 
         this.listContainer = listContainer;
 
-        this.listContainer.addEventListener('click', this.deleteItem);
+        this.listContainer.addEventListener('click', this.deleteItem.bind(this));
     }
 
     addItem(item) {
@@ -28,9 +28,9 @@ export class List extends Component {
         if (event.target.classList.contains('delete-button')) {
             const parentElement = event.target.closest('.donate-item');
             if (parentElement) {
-                const clickItemId = parentElement.getAttribute('id');
-                const clickItemAmount = parentElement.getAttribute('amount');
+                const clickItemId = Number(parentElement.getAttribute('id'));
                 parentElement.remove();
+                this.props.onDelete(clickItemId);
             }
         }
     }

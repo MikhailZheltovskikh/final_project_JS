@@ -27,7 +27,7 @@ export class App extends Component {
 
         const donateForm = new Form({ onSubmit: this.onItemCreate.bind(this) });
         this.$rootElement.appendChild(donateForm.$rootElement);
-        const donateList = new List();
+        const donateList = new List({ onDelete: this.onRemoveItem.bind(this) });
         this.$rootElement.appendChild(donateList.$rootElement);
 
         this.donateList = donateList;
@@ -40,12 +40,15 @@ export class App extends Component {
 
         this.state.total += amount;
         this.$total.textContent = this.state.total;
-
-        // console.log(this.state);
     }
 
-    // onRemoveItem() {
-    //     const item = new ListItem(amount);
-    //     this.donateList.addItem(item);
-    // }
+    onRemoveItem(id) {
+        const itemIndexDelete = this.state.donates.findIndex((item) => item.state.id === id);
+        if (itemIndexDelete != -1) {
+            this.state.total -= this.state.donates[itemIndexDelete].state.amount;
+            this.$total.textContent = this.state.total;
+            this.state.donates.splice(itemIndexDelete, 1);
+            // console.log(this.state);
+        }
+    }
 }
